@@ -11,6 +11,8 @@ linear_trav_notes = Traversal.linear_traversal(processor.length, processor.lengt
 two_spiral_inward_trav_notes = Traversal.two_spiral_inward_traversal(processor.length, processor.length, processor.resized_rgba, processor.resized_gray)
 
 linear_trav_song = Music.Song(linear_trav_notes)
+# print(linear_trav_song.scale)
+# print(linear_trav_song.notes_in_scale)
 two_spiral_inward_trav_song = Music.Song(two_spiral_inward_trav_notes)
 
 linear_trav_song.output_to_file("linear_traversal")

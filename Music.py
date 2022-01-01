@@ -2,6 +2,7 @@ from midiutil.MidiFile import MIDIFile
 
 import os
 import sys
+import random
 
 import helper
 
@@ -29,12 +30,33 @@ class Song:
         self.tempo = tempo
         self.track = track
         self.channel = channel
+    
+    # function to find the closest pitch thats in key given a pitch
+    def shift_to_scale(self, pitch):
+        if pitch in self.notes_in_scale:
+            return pitch
+        
+        upper_pitch = pitch+1
+        lower_pitch = pitch-1
+        while upper_pitch <= 108 or lower_pitch >= 21:
+            if upper_pitch in self.notes_in_scale and lower_pitch in self.notes_in_scale:
+                return random.choice([lower_pitch, upper_pitch])
+            elif upper_pitch in self.notes_in_scale:
+                return upper_pitch
+            elif lower_pitch in self.notes_in_scale:
+                return lower_pitch
+            
+            upper_pitch += 1
+            lower_pitch -= 1
+            
+        return pitch
         
     def output_to_file(self, track_name):
         midi_file = MIDIFile(1)
         
         midi_file.addTrackName(self.track, 0, track_name)
         for note in self.notes:
+            note.pitch = self.shift_to_scale(note.pitch)
             midi_file.addNote(self.track, self.channel, note.pitch, note.time, note.duration, note.volume)
         
         file_path = os.path.join(sys.path[0], f"output/{track_name}_output.mid")
