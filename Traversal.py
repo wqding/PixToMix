@@ -1,26 +1,25 @@
-import Image
 import Music
 import helper
 
-def linear_traversal(length, width, resized, resized_gray):
+def linear_traversal(length, width, rgba, gray):
         time = 0    # start at the beginning
         notes = []
         for row in range(length):
             for col in range(width):
-                curr_pitches = helper.get_pitches_from_rgb(resized[row][col])
+                curr_pitches = helper.get_pitches_from_rgb(rgba[row][col])
                 
                 # TODO: add volume and duration
                 notes.append(Music.Note(curr_pitches[0], time))
                 notes.append(Music.Note(curr_pitches[1], time))
                 notes.append(Music.Note(curr_pitches[2], time))
                 
-                # intensity = helper.get_vol_from_intensity(resized_gray[row][col])
+                # intensity = helper.get_vol_from_intensity(gray[row][col])
 
                 time += 1
                 
         return notes
     
-def two_spiral_inward_traversal(length, width, resized, resized_gray):
+def two_spiral_inward_traversal(length, width, rgba, gray):
     time = 0
     notes = []
     
@@ -30,12 +29,12 @@ def two_spiral_inward_traversal(length, width, resized, resized_gray):
     while top <= bot and left <= right:
         if vert_dir:
             for i in range(top, bot+1):
-                curr_pitches = helper.get_pitches_from_rgb(resized[i][right])
+                curr_pitches = helper.get_pitches_from_rgb(rgba[i][right])
                 notes.append(Music.Note(curr_pitches[0], time))
                 notes.append(Music.Note(curr_pitches[1], time))
                 notes.append(Music.Note(curr_pitches[2], time))
                 
-                curr_pitches = helper.get_pitches_from_rgb(resized[bot-i+top][left])
+                curr_pitches = helper.get_pitches_from_rgb(rgba[bot-i+top][left])
                 notes.append(Music.Note(curr_pitches[0], time))
                 notes.append(Music.Note(curr_pitches[1], time))
                 notes.append(Music.Note(curr_pitches[2], time))
@@ -44,15 +43,15 @@ def two_spiral_inward_traversal(length, width, resized, resized_gray):
             left += 1
         else:
             for j in range(left, right+1):
-                # intensity1 = self.resized_gray[top][j]
-                # intensity2 = self.resized_gray[bot][right-j+left]
+                # intensity1 = self.gray[top][j]
+                # intensity2 = self.gray[bot][right-j+left]
                 
-                curr_pitches = helper.get_pitches_from_rgb(resized[top][j])
+                curr_pitches = helper.get_pitches_from_rgb(rgba[top][j])
                 notes.append(Music.Note(curr_pitches[0], time))
                 notes.append(Music.Note(curr_pitches[1], time))
                 notes.append(Music.Note(curr_pitches[2], time))
                 
-                curr_pitches = helper.get_pitches_from_rgb(resized[bot][right-j+left])
+                curr_pitches = helper.get_pitches_from_rgb(rgba[bot][right-j+left])
                 notes.append(Music.Note(curr_pitches[0], time))
                 notes.append(Music.Note(curr_pitches[1], time))
                 notes.append(Music.Note(curr_pitches[2], time))

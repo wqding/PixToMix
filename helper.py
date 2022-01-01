@@ -1,11 +1,3 @@
-import os
-import sys
-
-def output_midi_to_file(midi_file, filename):
-        file_path = os.path.join(sys.path[0], f"output/{filename}")
-        with open(file_path, 'wb') as outf:
-            midi_file.writeFile(outf)
-
 def get_starting_pitches(notes):
     starting_pitches = []
     for n in notes:

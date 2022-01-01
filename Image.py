@@ -1,12 +1,13 @@
 import cv2
 
 class ImageProcessor:
-    def __init__(self, img_path):
+    def __init__(self, img_path, length=32, width=32):
         self.rgba = cv2.imread(img_path, cv2.IMREAD_UNCHANGED) # rgba
         self.gray = cv2.imread(img_path, cv2.IMREAD_GRAYSCALE)  # grayscale
-        self.resized_dim = (32, 32)
-        self.resized_rgba = cv2.resize(self.rgba, self.resized_dim, interpolation = cv2.INTER_AREA)
-        self.resized_gray = cv2.resize(self.gray, self.resized_dim, interpolation = cv2.INTER_AREA)
+        self.length = length
+        self.width = width
+        self.resized_rgba = cv2.resize(self.rgba, (self.length, self.width), interpolation = cv2.INTER_AREA)
+        self.resized_gray = cv2.resize(self.gray, (self.length, self.width), interpolation = cv2.INTER_AREA)
         
     # wtf is fast fourier transfomr vs fourier transform?
     def get_fourier_transform(self):

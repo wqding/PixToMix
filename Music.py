@@ -1,4 +1,8 @@
 from midiutil.MidiFile import MIDIFile
+
+import os
+import sys
+
 import helper
 
 C_M = 0
@@ -26,13 +30,15 @@ class Song:
         self.track = track
         self.channel = channel
         
-    def output_midi_file(self, track_name):
+    def output_to_file(self, track_name):
         midi_file = MIDIFile(1)
         
-        midi_file.addTrackName(self.track, self.time, track_name)
+        midi_file.addTrackName(self.track, 0, track_name)
         for note in self.notes:
             midi_file.addNote(self.track, self.channel, note.pitch, note.time, note.duration, note.volume)
-            
-        self.output_midi_to_file(f"{track_name}_output.mid")
+        
+        file_path = os.path.join(sys.path[0], f"output/{track_name}_output.mid")
+        with open(file_path, 'wb') as outf:
+            midi_file.writeFile(outf)
 
 
